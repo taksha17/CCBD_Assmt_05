@@ -1,0 +1,57 @@
+{% extends "txt6312_base.html" %}
+{% block title %}Search by Word{% endblock %}
+{% block content %}
+<div class="container-fluid justify-content-center">
+    {% if form %}
+    <div class="container">
+        <h3 class="display-4">Available Files:</h3>
+        <ul>
+            {% for file in available_files %}
+            <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="container border border-dark mt-4">
+        <div class="form-group">
+            <form action="/search" method="POST">
+                {{ form.csrf_token }}
+                {{ form.search_query.label }} {{ form.search_query }} &nbsp &nbsp
+                <input type="text" name="file_name" placeholder="Enter File Name With .txt at the end as well" required>&nbsp &nbsp &nbsp &nbsp  <!-- Add file name input field -->
+                <button type="submit" class="btn btn-custom">Search</button>  <!-- Custom submit button -->
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    {% if error %}
+    <div class="container border border-dark mt-4">
+        <b>{{ error }}</b>
+    </div>
+    {% endif %}
+    <center><b>{{message}}</b></center>
+    {% if search_results %}
+    <!-- <b>{{message}}</b> -->
+    <div class="container border border-dark mt-4">
+        <h3 class="display-4">Search Results</h3><br/>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr><h6><b>Word Count : {{ count }}</b></h6></tr></thead></br>
+                    <tr>
+                        <th>Search Results : </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in search_results %}
+                    
+                    <tr>
+                        <td>{{ result }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
